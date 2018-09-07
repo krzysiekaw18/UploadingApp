@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>MyFile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i&amp;subset=latin-ext"
+          rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .container-narrow {
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        .container-narrow > hr {
+            margin: 30px 0;
+        }
+
+        .jumbotron {
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .jumbotron h1 {
+            font-size: 72px;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body>
+<div class="container-narrow">
+    <nav class="navbar navbar-expand-sm" style="background-color: gray">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <h3>MyFile</h3>
+        </div>
+    </nav>
+    <hr>
+    <div class="jumbotron">
+        <h1>Wrzucaj/pobieraj pliki szybko i darmowo!!! </h1>
+        <p class="lead">
+            Możesz wrzucać pliki o maksymalnej wielkości, aż 1GB. <br>
+            Dodatkowo w każdy poniedziałek zwiększamy wielkość do 2GB!!!"</p>
+        <p style="color: brown">Nie musisz martwić się o usuwanie plików!!! Zostaną one usunięte z serwera po upływie
+            1h.</p>
+        <form method="POST" enctype="multipart/form-data" action="/">
+            <input type="file" name="file" required="required">
+            <br>
+            <br>
+            <input type="submit" value="Wrzuć" style="width: 150px"/>
+        </form>
+    </div>
+
+    <div style="text-align: center">
+        <th:block th:if="${info != null}" th:switch="${info.name()}">
+            <div th:case="'DATABASE_ERROR'">
+                <h1 style="color: red" th:text="#{database.error}"></h1>
+            </div>
+            <div th:case="'DISC_ERROR'">
+                <h1 style="color: red" th:text="#{disc.error}"></h1>
+            </div>
+            <div th:case="'FILE_TOO_LARGE'">
+                <h1 style="color: red" th:text="#{size.error}"></h1>
+            </div>
+        </th:block>
+    </div>
+
+
+    <hr>
+    <div style="text-align: center">
+        <h1>Najnowsze pliki: </h1>
+        <div class="starter-template panel" th:each="file : ${listFiles}">
+            <div class="panel-heading">
+                <h4><a th:href="@{'/' + ${file.getFileName()}}"
+                       th:text="${file.getOriginalName()}" style="color: darkblue"></a></h4>
+                <div th:text="'DODANY: ' + ${#temporals.format(file.getUploadDate(), 'dd-MM-yyyy, HH:mm')}"></div>
+                <br>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div style="text-align: center">
+    <div>
+        <p>© 2018 Krzysiek Stuglik</p>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${fileOptional.getOriginalName()}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div>
+        <h1 style="color: darkblue; font-size: 70px; text-align: center">
+            Szczegóły pliku:
+        </h1>
+    </div>
+    <div class="jumbotron" style="margin-top: 130px">
+        <div class="row">
+            <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4" style="text-align: center">
+                <img src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/12.File-256.png" alt="stack photo"
+                     class="img">
+            </div>
+            <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
+                <div class="container" style="border-bottom:1px solid black">
+                    <h2 th:text="${fileOptional.getOriginalName()}"></h2>
+                </div>
+                <hr>
+                <ul class="container details">
+                    <li><p><span class="glyphicon glyphicon-earphone one" style="width:50px;"
+                                 th:text="'Data dodania: ' + ${#temporals.format(fileOptional.getUploadDate(), 'dd-MM-yyyy, HH:mm')}"></span>
+                    </p></li>
+                    <li><p><span class="glyphicon glyphicon-envelope one" style="width:50px;"
+                                 th:text="'Rozmiar pliku ' + ${(fileOptional.getSize()/1024) + ' kb. '}"></span></p>
+                    </li>
+                    <li><p><span class="glyphicon glyphicon-envelope one" style="width:50px;"
+                                 th:text="'IP użytkownika: ' + ${fileOptional.getIp()}"></span></p></li>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center; width: 100%" class="btn-group btn-group-lg">
+        <button th:onclick="'javascript:location.href =\'/download/' + ${fileOptional.getFileName()} + '\''"
+                class="btn btn-outline-primary" style="width: 50%">Pobierz plik
+        </button>
+        <button onclick="javascript:location.href = '/'"
+                class="btn btn-outline-primary" style="width: 50%">Wróć do strony głównej
+        </button>
+    </div>
+</div>
+</body>
+</html>
